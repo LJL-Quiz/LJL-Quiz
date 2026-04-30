@@ -2,66 +2,127 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
+  <!-- Wichtig für Responsiveness: Sagt dem Browser, wie er sich verhalten soll! -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>🎮🎬 Quiz für gamer</title>
 
-  <!-- NEU: Moderne Schriftart importieren (Inter) -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+  <!-- Moderne Schriftart importieren (Inter) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
 
   <!-- 🎨 STYLING & DESIGN (Minimalist High-Tech Dark Mode) -->
   <style>
-    /* ------------------- GRUNDSTIL & BODY ------------------- */
-    body {
-        background: #0d1117; /* Sehr dunkler Hintergrund (GitHub/Vercel Stil) */
-        color: #c9d1d9; /* Heller, leicht gedämpfter Text */
-        text-align: center; 
-        font-family: 'Inter', sans-serif; 
-        padding: 30px 20px;
+    /* ========================================= */
+    /* --- CSS VARIABLEN FÜR THEME SWITCHING --- */
+    /* ========================================= */
+    :root {
+        --bg-color: #0d1117; /* Dunkler Hintergrund (Dark Mode Default) */
+        --text-color: #c9d1d9; 
+        --primary-accent: #58a6ff; /* Tech Blue - Akzentfarbe */
+        --secondary-bg: #161b22;
+        --button-bg: #21262d;
+        --shadow-glow: rgba(90, 166, 255, 0.3);
     }
 
-    /* ------------------- MENÜ-LEISTE (NAV) ------------------- */
+    /* Light Mode Definition */
+    body.light-mode {
+        --bg-color: #f0f4f8; /* Heller Hintergrund */
+        --text-color: #1a202c; /* Dunkler Text */
+        --primary-accent: #3b82f6; /* Ein kräftigeres, helleres Blau */
+        --secondary-bg: #ffffff;
+        --button-bg: #e2e8f0;
+        --shadow-glow: rgba(59, 130, 246, 0.3);
+    }
+
+    /* ========================================= */
+    /* --- GRUNDSTIL & LAYOUT (RESPONSIVE) --- */
+    /* ========================================= */
+    body {
+        background: var(--bg-color);
+        color: var(--text-color); 
+        text-align: center; 
+        font-family: 'Inter', sans-serif;
+        padding: 20px;
+        transition: background-color 0.5s ease, color 0.5s ease; /* Sanfter Übergang beim Theme Wechsel */
+    }
+
+    /* Hauptcontainer für bessere Kontrolle auf kleinen Screens */
+    #quiz-container {
+        max-width: 800px; /* Maximale Breite für PC */
+        margin: 0 auto; /* Zentriert den Inhalt */
+    }
+
+
+    /* ------------------- MENÜ & HEADER ------------------- */
     nav {
-        background: #161b22; /* Dunklerer Hintergrund für die Navigation */
+        background: var(--secondary-bg); 
         padding: 15px 0;
-        margin-bottom: 40px;
+        margin-bottom: 30px;
         border-radius: 8px;
-        box-shadow: 0 4px 10px rgba(0, 255, 255, 0.1); /* Leichter Neon-Schimmer */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Leichter Schatten */
+        display: flex; /* Macht die Elemente nebeneinander */
+        justify-content: center;
+        align-items: center;
     }
 
     nav a {
-        color: #58a6ff; /* Helles Blau als Akzentfarbe (Tech Blue) */
-        margin: 0 20px; 
+        color: var(--primary-accent); 
+        margin: 0 15px; 
         text-decoration: none; 
         font-weight: bold;
         transition: color 0.3s ease;
     }
 
     nav a:hover {
-        color: #e6edf3; /* Heller beim Hover */
-        border-bottom: 2px solid #58a6ff;
+        color: #fff; /* Weiß beim Hovern */
+        border-bottom: 2px solid var(--primary-accent); 
+    }
+
+    /* Steuerungselemente (Theme Toggle & Dev Menu) */
+    .controls {
+        position: absolute;
+        top: 15px;
+        right: 30px; /* Platzierung oben rechts */
+        display: flex;
+        gap: 10px;
+    }
+
+    /* Styling für die Buttons im Controls-Bereich */
+    .control-btn {
+        background: none;
+        border: none;
+        color: var(--text-color);
+        cursor: pointer;
+        font-size: 1.5em;
+        padding: 8px;
+        transition: color 0.3s ease, transform 0.2s ease;
+    }
+
+    .control-btn:hover {
+        transform: scale(1.1);
+        color: var(--primary-accent);
     }
 
 
     /* ------------------- QUIZ-ELEMENTE (TITEL/BILD) ------------------- */
     h1 {
-        font-size: 3em; 
-        color: #e6edf3; 
+        font-size: clamp(2em, 5vw, 3.5em); /* Skaliert dynamisch mit der Bildschirmgröße */
+        color: var(--text-color);
         margin-bottom: 5px;
-        text-shadow: 0 0 8px rgba(0, 170, 255, 0.4); /* Leichter "Glow" Effekt */
+        text-shadow: 0 0 10px var(--primary-accent); 
     }
 
     #question-img {
-        max-width: 90%; 
+        max-width: 90%; /* Wichtig für Mobilgeräte */
         height: auto;
         display: block; 
         margin: 20px auto 30px; 
         border-radius: 15px; 
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7); /* Tieferer Schatten für Tiefenwirkung */
-        transition: transform 0.3s ease; 
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); /* Schatten */
+        transition: transform 0.3s ease;
     }
 
     #question {
-        font-size: 1.6em; 
+        font-size: clamp(1.2em, 3vw, 1.6em); /* Skaliert dynamisch mit der Bildschirmgröße */
         margin-bottom: 40px;
         padding: 0 20px;
     }
@@ -72,81 +133,107 @@
         padding: 15px 30px; /* Große, klickbare Fläche */
         font-size: 1.1em; 
         cursor: pointer;
-        background-color: #21262d; /* Dunklerer Button-Hintergrund */
-        color: #c9d1d9;
-        border: 2px solid #30363d;
+        background-color: var(--button-bg);
+        color: var(--text-color);
+        border: 2px solid #444;
         margin: 10px 15px;
-        transition: all 0.2s ease; 
+        transition: all 0.3s ease; 
         border-radius: 8px;
     }
 
     button:hover {
-        background-color: #30363d; /* Heller beim Hovern */
-        border-color: #58a6ff; /* Akzentfarbe wird sichtbar */
+        background-color: var(--primary-accent); /* Akzentfarbe beim Hovern */
+        color: #fff;
         transform: translateY(-2px); /* Leichter "Lift"-Effekt */
-        box-shadow: 0 4px 12px rgba(90, 166, 255, 0.3); /* Neon-Schimmer beim Hovern */
+        box-shadow: 0 4px 15px var(--shadow-glow); /* Neon-Schimmer beim Hovern */
     }
 
     /* ------------------- ERGEBNISSE UND FEEDBACK ------------------- */
     #result {
-        font-size: 1.8em;
+        font-size: clamp(1.2em, 3vw, 1.8em);
         margin-top: 40px;
         padding: 20px;
         border-radius: 10px;
-        transition: background-color 0.3s ease, color 0.3s ease;
+        transition: background-color 0.5s ease, color 0.5s ease;
     }
 
-    /* Styling für richtig/falsch */
+    /* Spezielle Klassen für Feedback */
     .correct {
-         background-color: rgba(76, 175, 80, 0.2); /* Grüner Schimmer */
+         background-color: rgba(76, 175, 80, 0.2); /* Grüner Schimmer (im Dark Mode) */
          color: #9ae6b4;
     }
     .incorrect {
-         background-color: rgba(255, 82, 82, 0.2); /* Roter Schimmer */
+         background-color: rgba(255, 82, 82, 0.2); /* Roter Schimmer (im Dark Mode) */
          color: #f87171;
     }
 
   </style>
 </head>
 
-<body >
+<body id="quizBody">
 
-<!-- Menü -->
-<nav style="background:#161b22; padding:15px 0; margin-bottom:40px;">
-  <a href="#" onclick="selectCategory('spiele'); return false;" style="color:white; margin:0 20px; text-decoration:none; font-weight:bold;">🎮 Spiele</a>
-  <a href="#" onclick="selectCategory('serien'); return false;" style="color:white; margin:0 20px; text-decoration:none;">📺 Serien</a>
-  <a href="#" onclick="selectCategory('filme'); return false;" style="color:white; margin:0 20px; text-decoration:none;">🎬 Filme</a>
-</nav>
+<!-- Controls für Theme & Dev -->
+<div class="controls">
+    <button class="control-btn" id="themeToggle" title="Theme wechseln (Dark/Light)">🌙</button>
+    <button class="control-btn" id="devSettingsBtn" title="Entwickler-Einstellungen">⚙️</button>
+</div>
 
-<h1 id="quiz-title">Quiz für Gamer</h1>
+<!-- Quiz Container -->
+<div id="quiz-container">
+    <!-- Menü -->
+    <nav>
+      <a href="#" onclick="selectCategory('spiele'); return false;">🎮 Spiele</a>
+      <a href="#" onclick="selectCategory('serien'); return false;">📺 Serien</a>
+      <a href="#" onclick="selectCategory('filme'); return false;">🎬 Filme</a>
+    </nav>
+
+    <h1>Quiz für Gamer</h1>
+    
+    <!-- Bildanzeige -->
+    <img id="question-img" src="" alt="Fragebild" />
+    <h2 id="question">Bitte wähle eine Kategorie!</h2>
+
+    <!-- Antwort-Buttons -->
+    <button onclick="checkAnswer(0)" id="a"></button>
+    <button onclick="checkAnswer(1)" id="b"></button>
+    <button onclick="checkAnswer(2)" id="c"></button>
+    <button onclick="checkAnswer(3)" id="d"></button>
+
+    <!-- Ergebnisanzeige -->
+    <p id="result"></p>
+</div>
 
 
-<!-- Bildanzeige -->
-<img id="question-img" src="" alt="Fragebild" />
-<h2 id="question">Bitte wähle eine Kategorie!</h2>
+<!-- ⚙️ DEV SETTINGS MODAL (Der "Settings Wheel") -->
+<div id="settingsModal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.8); padding-top: 60px;">
+    <div style="background-color: var(--secondary-bg); margin: 5% auto; padding: 30px; border-radius: 12px; width: 90%; max-width: 500px; box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);">
+        <h2 style="color: var(--primary-accent); border-bottom: 1px solid #444; padding-bottom: 10px;">⚙️ Entwickler-Tools</h2>
+        
+        <!-- Dev Testing Area -->
+        <div style="margin-top: 20px; text-align: left;">
+            <p><strong>API Status:</strong> <span id="apiStatus" style="color: green;">ONLINE</span></p>
+            <p><strong>Quiz Logik Check:</strong> <span id="logicStatus" style="color: lightgreen;">OK</span></p>
+        </div>
 
-<!-- Antwort-Buttons -->
-<button onclick="checkAnswer(0)" id="a"></button>
-<button onclick="checkAnswer(1)" id="b"></button>
-<button onclick="checkAnswer(2)" id="c"></button>
-<button onclick="checkAnswer(3)" id="d"></button>
-
-<!-- Ergebnisanzeige -->
-<p id="result"></p>
+        <!-- Test-Funktion (zum Beispiel, um zu sehen, ob JS läuft) -->
+        <button onclick="console.log('Dev Test erfolgreich!')" style="margin-top: 20px; background-color: #3b82f6;">Test Button klicken</button>
+        
+        <!-- Schließen-Button -->
+        <button onclick="document.getElementById('settingsModal').style.display='none';" style="background-color: red; margin-top: 15px;">Schließen (X)</button>
+    </div>
+</div>
 
 
 <script>
+// ===========================================================
+// LOGIK & FUNKTIONALITÄT
+// ===========================================================
+
 let questionIndex = 0;
 let score = 0;
 
-// ===========================================================
-// QUIZ-DATEN (WICHTIG: Hier musst du die Pfade anpassen!)
-// Der korrekte Basis-Pfad ist: "Resources/images/"
-// Du ersetzt placeholder_bildX.jpg durch deinen tatsächlichen Dateinamen!
-// ===========================================================
 const allQuestions = [
-
-  // 🎮 GAMING - SPIELE
+  // 🎮 GAMING - SPIELE (WICHTIG: Hier deine korrigierten Pfade!)
   {question: "Wer ist dieser Charakter (God of War)?", answers:["Kratos","Mario","Link","Sonic"], correct:0, img:"Resources/images/placeholder_bild1.jpg", category:"spiele"},
   {question: "Wer ist das?", answers:["Bowser","Donkey Kong","Luigi","Yoshi"], correct:0, img:"Resources/images/placeholder_bild2.jpg", category:"spiele"},
   {question: "Wer ist das?", answers:["Papyrus","Sans","Gaster","Flowey"], correct:0, img:"Resources/images/placeholder_bild3.jpg", category:"spiele"},
@@ -161,7 +248,7 @@ const allQuestions = [
   {question: "Fallout Währung?", answers:["Caps","Dollar","Gold","Coins"], correct:0, img:"Resources/images/placeholder_bild12.jpg", category:"spiele"},
 
   // 📺 SERIEN
-  {question: "Wer ist das?", answers:["Walter White","Jesse Pinkman","Saul Goodman","Hank"], correct:0, category:"serien"}, // KEIN BILD (img leer lassen)
+  {question: "Wer ist das?", answers:["Walter White","Jesse Pinkman","Saul Goodman","Hank"], correct:0, category:"serien"}, // KEIN BILD
   {question: "Wer ist Glenn?", answers:["The Walking Dead","Lost","Breaking Bad","Dark"], correct:0, category:"serien"}, 
   {question: "Serie mit tödlichen Spielen?", answers:["Squid Game","Alice in Borderland","Saw","Dark"], correct:0, category:"serien"}, 
   {question: "Walter Whites Fach?", answers:["Mathe","Chemie","Bio","Physik"], correct:1, category:"serien"}, 
@@ -260,8 +347,52 @@ function checkAnswer(ans){
     }, 1500); // Kurze Pause von 1,5 Sekunden
 }
 
-// Startet das Quiz beim Laden der Seite (zeigt die Kategorien-Aufforderung)
+// ===========================================================
+// FUNKTIONALITÄT (THEME & DEV)
+// ===========================================================
+
+// 1. Dark/Light Mode Toggle
+const body = document.getElementById('quizBody');
+const themeToggleBtn = document.getElementById('themeToggle');
+const settingsModal = document.getElementById('settingsModal');
+const devSettingsBtn = document.getElementById('devSettingsBtn');
+
+function toggleTheme() {
+    body.classList.toggle('light-mode');
+    // Speichert die Präferenz im Browser, damit sie beim nächsten Besuch gespeichert wird!
+    if (body.classList.contains('light-mode')) {
+        localStorage.setItem('theme', 'light');
+        themeToggleBtn.innerHTML = '☀️'; // Sonne für Light Mode
+    } else {
+        localStorage.setItem('theme', 'dark');
+        themeToggleBtn.innerHTML = '🌙'; // Mond für Dark Mode
+    }
+}
+
+// Prüft bei Start, ob der Benutzer eine Präferenz gespeichert hat
+function checkTheme() {
+    const savedTheme = localStorage.getItem('theme') || 'dark'; // Default ist Dark Mode
+    if (savedTheme === 'light') {
+        body.classList.add('light-mode');
+        themeToggleBtn.innerHTML = '☀️'; 
+    } else {
+        themeToggleBtn.innerHTML = '🌙'; 
+    }
+}
+
+// Event Listener für den Theme Toggle
+themeToggleBtn.addEventListener('click', toggleTheme);
+
+// Öffnen/Schließen des Dev Settings Menüs
+devSettingsBtn.addEventListener('click', () => {
+    settingsModal.style.display = settingsModal.style.display === 'block' ? 'none' : 'block';
+});
+
+
+// Startfunktionen
+checkTheme(); 
 loadQuestion();
+
 </script>
 
 </body>
