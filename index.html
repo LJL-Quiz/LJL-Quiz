@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Quiz für gamer</title>
+</head>
+
+
+<body style="background:#111; color:white; text-align:center; font-family:Arial;">
+
+<!-- Menü -->
+
+<nav style="background:#222; padding:10px; margin-bottom:20px;">
+  <a href="#" onclick="selectCategory('spiele'); return false;" style="color:white; margin:0 15px; text-decoration:none; font-weight:bold;">Spiele</a>
+  <a href="#" onclick="selectCategory('serien'); return false;" style="color:white; margin:0 15px; text-decoration:none;">Serien</a>
+  <a href="#" onclick="selectCategory('filme'); return false;" style="color:white; margin:0 15px; text-decoration:none;">Filme</a>
+</nav>
+
+<h1>🎮🎬 Quiz für gamer</h1>
+
+
+<img id="question-img" src="" alt="Fragebild" style="max-width:300px; display:block; margin:0 auto 20px; border-radius:10px; box-shadow:0 0 10px #000; background:#222;" />
+<h2 id="question"></h2>
+
+<button onclick="checkAnswer(0)" id="a"></button>
+<button onclick="checkAnswer(1)" id="b"></button>
+<button onclick="checkAnswer(2)" id="c"></button>
+<button onclick="checkAnswer(3)" id="d"></button>
+
+<p id="result"></p>
+
+<script>
+let questionIndex = 0;
+let score = 0;
+
+
+
+const allQuestions = [
+
+  // 🎮 GAMING
+
+
+  // Spiele
+  {question: "Wer ist dieser Charakter (God of War)?", answers:["Kratos","Mario","Link","Sonic"], correct:0, img:"/static/img/kratos.jpg", category:"spiele"},
+  {question: "Wer ist das?", answers:["Bowser","Donkey Kong","Luigi","Yoshi"], correct:0, img:"/static/img/bowser.jpg", category:"spiele"},
+  {question: "Wer ist das?", answers:["Papyrus","Sans","Gaster","Flowey"], correct:0, img:"/static/img/papyrus.jpg", category:"spiele"},
+  {question: "Welche Nintendo Konsole kam 2002 raus?", answers:["Switch","GameCube","Wii","DS"], correct:1, img:"/static/img/gamecube.jpg", category:"spiele"},
+  {question: "Meistverkauftes Spiel?", answers:["GTA V","Minecraft","Fortnite","Tetris"], correct:1, img:"/static/img/minecraft.jpg", category:"spiele"},
+  {question: "GTA 5 Stadt?", answers:["Liberty City","Los Santos","Vice City","San Fierro"], correct:1, img:"/static/img/los_santos.jpg", category:"spiele"},
+  {question: "SEGA Maskottchen?", answers:["Mario","Sonic","Crash","Rayman"], correct:1, img:"/static/img/sonic.jpg", category:"spiele"},
+  {question: "Umbrella kommt vor in?", answers:["Resident Evil","Silent Hill","Outlast","Dead Space"], correct:0, img:"/static/img/umbrella.jpg", category:"spiele"},
+  {question: "Spiel mit Pilzinfektion?", answers:["The Last of Us","Days Gone","RE4","Metro"], correct:0, img:"/static/img/lastofus.jpg", category:"spiele"},
+  {question: "Roter Pac-Man Geist?", answers:["Blinky","Pinky","Inky","Clyde"], correct:0, img:"/static/img/blinky.jpg", category:"spiele"},
+  {question: "Marios erster Auftritt?", answers:["Mario Bros","Donkey Kong","Zelda","Metroid"], correct:1, img:"/static/img/donkeykong.jpg", category:"spiele"},
+  {question: "Fallout Währung?", answers:["Caps","Dollar","Gold","Coins"], correct:0, img:"/static/img/fallout.jpg", category:"spiele"},
+
+  // Serien
+  {question: "Wer ist das?", answers:["Walter White","Jesse Pinkman","Saul Goodman","Hank"], correct:0, category:"serien"},
+  {question: "Wer ist Glenn?", answers:["The Walking Dead","Lost","Breaking Bad","Dark"], correct:0, category:"serien"},
+  {question: "Serie mit tödlichen Spielen?", answers:["Squid Game","Alice in Borderland","Saw","Dark"], correct:0, category:"serien"},
+  {question: "Walter Whites Fach?", answers:["Mathe","Chemie","Bio","Physik"], correct:1, category:"serien"},
+  {question: "Mädchen mit Kräften?", answers:["Eleven","Max","Nancy","Robin"], correct:0, category:"serien"},
+  {question: "Wo leben Simpsons?", answers:["Springfield","Quahog","South Park","NY"], correct:0, category:"serien"},
+  {question: "TWD W auf Stirn?", answers:["Owen","Negan","Rick","Daryl"], correct:0, category:"serien"},
+  {question: "Blutanalyst + Killer?", answers:["Dexter Morgan","Hannibal","Joe Goldberg","Michael"], correct:0, category:"serien"},
+  {question: "Kind namens Malcolm?", answers:["Malcolm Mittendrin","Modern Family","Friends","Office"], correct:0, category:"serien"},
+
+  // Filme
+  {question: "Wer ist das?", answers:["Iron Man","Batman","Superman","Thor"], correct:0, category:"filme"},
+  {question: "Wer ist Jason?", answers:["Jason Voorhees","Freddy","Michael Myers","Ghostface"], correct:0, category:"filme"},
+  {question: "Hauself?", answers:["Dobby","Kreacher","Winky","Hedwig"], correct:0, category:"filme"},
+  {question: "Fight Club Regel?", answers:["Nicht reden","Kämpfen","Fliehen","Lachen"], correct:0, category:"filme"},
+  {question: "Scream Regel?", answers:["Bin gleich zurück","Hallo","Lauf","Hilfe"], correct:0, category:"filme"},
+  {question: "Freitag der 13 Killer Teil 1?", answers:["Pamela Voorhees","Jason","Freddy","Ghostface"], correct:0, category:"filme"},
+  {question: "Simba Böser Onkel?", answers:["Scar","Mufasa","Zazu","Rafiki"], correct:0, category:"filme"},
+  {question: "Stunts selbst?", answers:["Jackie Chan","Tom Cruise","The Rock","Vin Diesel"], correct:0, category:"filme"},
+  {question: "Erstes Dino Tier?", answers:["Brachiosaurus","T-Rex","Raptor","Triceratops"], correct:0, category:"filme"}
+];
+
+let questions = [];
+
+
+
+function loadQuestion(){
+  if(questions.length === 0){
+    document.getElementById("question").innerText = "Bitte wähle eine Kategorie!";
+    document.getElementById("a").style.display = "none";
+    document.getElementById("b").style.display = "none";
+    document.getElementById("c").style.display = "none";
+    document.getElementById("d").style.display = "none";
+    document.getElementById("question-img").style.display = "none";
+    return;
+  }
+  let q = questions[questionIndex];
+  document.getElementById("question").innerText = q.question;
+  document.getElementById("a").innerText = q.answers[0];
+  document.getElementById("b").innerText = q.answers[1];
+  document.getElementById("c").innerText = q.answers[2];
+  document.getElementById("d").innerText = q.answers[3];
+  document.getElementById("a").style.display = "inline-block";
+  document.getElementById("b").style.display = "inline-block";
+  document.getElementById("c").style.display = "inline-block";
+  document.getElementById("d").style.display = "inline-block";
+  // Bild setzen
+  if(q.img){
+    document.getElementById("question-img").src = q.img;
+    document.getElementById("question-img").style.display = "block";
+  } else {
+    document.getElementById("question-img").style.display = "none";
+  }
+}
+
+function selectCategory(cat){
+  questions = allQuestions.filter(q => q.category === cat);
+  questionIndex = 0;
+  score = 0;
+  document.getElementById("result").innerText = "";
+  loadQuestion();
+}
+
+
+function checkAnswer(ans){
+  if(ans === questions[questionIndex].correct){
+    score++;
+    document.getElementById("result").innerText = "✅ Richtig";
+  } else {
+    document.getElementById("result").innerText = "❌ Falsch";
+  }
+  questionIndex++;
+  if(questionIndex < questions.length){
+    setTimeout(loadQuestion, 1000);
+  } else {
+    document.body.innerHTML = `<h1>Du hast ${score} Punkte!</h1><button onclick='window.location.reload()' style='font-size:1.2em; padding:10px 20px;'>Nochmal spielen</button>`;
+  }
+}
+
+loadQuestion();
+</script>
+
+</body>
+</html>
