@@ -4,56 +4,121 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>🎮🎬 Quiz für gamer</title>
-  <!-- Hier kannst du später dein CSS einbinden -->
+
+  <!-- NEU: Moderne Schriftart importieren (Inter) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+
+  <!-- 🎨 STYLING & DESIGN (Minimalist High-Tech Dark Mode) -->
   <style>
-    /* Minimales Styling zur besseren Sichtbarkeit */
+    /* ------------------- GRUNDSTIL & BODY ------------------- */
     body {
-        background: #111; 
-        color: white; 
+        background: #0d1117; /* Sehr dunkler Hintergrund (GitHub/Vercel Stil) */
+        color: #c9d1d9; /* Heller, leicht gedämpfter Text */
         text-align: center; 
-        font-family: Arial, sans-serif;
-        padding: 20px;
+        font-family: 'Inter', sans-serif; 
+        padding: 30px 20px;
     }
+
+    /* ------------------- MENÜ-LEISTE (NAV) ------------------- */
+    nav {
+        background: #161b22; /* Dunklerer Hintergrund für die Navigation */
+        padding: 15px 0;
+        margin-bottom: 40px;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 255, 255, 0.1); /* Leichter Neon-Schimmer */
+    }
+
+    nav a {
+        color: #58a6ff; /* Helles Blau als Akzentfarbe (Tech Blue) */
+        margin: 0 20px; 
+        text-decoration: none; 
+        font-weight: bold;
+        transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+        color: #e6edf3; /* Heller beim Hover */
+        border-bottom: 2px solid #58a6ff;
+    }
+
+
+    /* ------------------- QUIZ-ELEMENTE (TITEL/BILD) ------------------- */
+    h1 {
+        font-size: 3em; 
+        color: #e6edf3; 
+        margin-bottom: 5px;
+        text-shadow: 0 0 8px rgba(0, 170, 255, 0.4); /* Leichter "Glow" Effekt */
+    }
+
     #question-img {
-        max-width: 300px; 
+        max-width: 90%; 
+        height: auto;
         display: block; 
-        margin: 0 auto 20px; 
-        border-radius: 10px; 
-        box-shadow: 0 0 15px #000; 
-        background: #222; /* Hintergrund, falls Bild fehlt */
+        margin: 20px auto 30px; 
+        border-radius: 15px; 
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7); /* Tieferer Schatten für Tiefenwirkung */
+        transition: transform 0.3s ease; 
     }
+
     #question {
-        margin-bottom: 30px;
+        font-size: 1.6em; 
+        margin-bottom: 40px;
+        padding: 0 20px;
     }
+
+
+    /* ------------------- BUTTONS (Die Interaktion) ------------------- */
     button {
-        padding: 10px 20px;
-        font-size: 1em;
+        padding: 15px 30px; /* Große, klickbare Fläche */
+        font-size: 1.1em; 
         cursor: pointer;
-        background-color: #333;
-        color: white;
-        border: 1px solid #555;
-        margin: 5px;
+        background-color: #21262d; /* Dunklerer Button-Hintergrund */
+        color: #c9d1d9;
+        border: 2px solid #30363d;
+        margin: 10px 15px;
+        transition: all 0.2s ease; 
+        border-radius: 8px;
     }
+
     button:hover {
-        background-color: #444;
+        background-color: #30363d; /* Heller beim Hovern */
+        border-color: #58a6ff; /* Akzentfarbe wird sichtbar */
+        transform: translateY(-2px); /* Leichter "Lift"-Effekt */
+        box-shadow: 0 4px 12px rgba(90, 166, 255, 0.3); /* Neon-Schimmer beim Hovern */
     }
+
+    /* ------------------- ERGEBNISSE UND FEEDBACK ------------------- */
     #result {
-        font-size: 1.2em;
-        margin-top: 20px;
+        font-size: 1.8em;
+        margin-top: 40px;
+        padding: 20px;
+        border-radius: 10px;
+        transition: background-color 0.3s ease, color 0.3s ease;
     }
+
+    /* Styling für richtig/falsch */
+    .correct {
+         background-color: rgba(76, 175, 80, 0.2); /* Grüner Schimmer */
+         color: #9ae6b4;
+    }
+    .incorrect {
+         background-color: rgba(255, 82, 82, 0.2); /* Roter Schimmer */
+         color: #f87171;
+    }
+
   </style>
 </head>
 
-<body>
+<body >
 
 <!-- Menü -->
-<nav style="background:#222; padding:10px; margin-bottom:20px;">
-  <a href="#" onclick="selectCategory('spiele'); return false;" style="color:white; margin:0 15px; text-decoration:none; font-weight:bold;">Spiele</a>
-  <a href="#" onclick="selectCategory('serien'); return false;" style="color:white; margin:0 15px; text-decoration:none;">Serien</a>
-  <a href="#" onclick="selectCategory('filme'); return false;" style="color:white; margin:0 15px; text-decoration:none;">Filme</a>
+<nav style="background:#161b22; padding:15px 0; margin-bottom:40px;">
+  <a href="#" onclick="selectCategory('spiele'); return false;" style="color:white; margin:0 20px; text-decoration:none; font-weight:bold;">🎮 Spiele</a>
+  <a href="#" onclick="selectCategory('serien'); return false;" style="color:white; margin:0 20px; text-decoration:none;">📺 Serien</a>
+  <a href="#" onclick="selectCategory('filme'); return false;" style="color:white; margin:0 20px; text-decoration:none;">🎬 Filme</a>
 </nav>
 
-<h1>🎮🎬 Quiz für gamer</h1>
+<h1 id="quiz-title">Quiz für Gamer</h1>
 
 
 <!-- Bildanzeige -->
@@ -75,8 +140,9 @@ let questionIndex = 0;
 let score = 0;
 
 // ===========================================================
-// QUIZ-DATEN (Hier musst du die Pfade später anpassen!)
-// Der korrekte Basispfad ist: "Resources/images/"
+// QUIZ-DATEN (WICHTIG: Hier musst du die Pfade anpassen!)
+// Der korrekte Basis-Pfad ist: "Resources/images/"
+// Du ersetzt placeholder_bildX.jpg durch deinen tatsächlichen Dateinamen!
 // ===========================================================
 const allQuestions = [
 
@@ -95,15 +161,15 @@ const allQuestions = [
   {question: "Fallout Währung?", answers:["Caps","Dollar","Gold","Coins"], correct:0, img:"Resources/images/placeholder_bild12.jpg", category:"spiele"},
 
   // 📺 SERIEN
-  {question: "Wer ist das?", answers:["Walter White","Jesse Pinkman","Saul Goodman","Hank"], correct:0, category:"serien"}, // <-- KEIN BILD HIER (category nur)
-  {question: "Wer ist Glenn?", answers:["The Walking Dead","Lost","Breaking Bad","Dark"], correct:0, category:"serien"}, // <-- KEIN BILD HIER
-  {question: "Serie mit tödlichen Spielen?", answers:["Squid Game","Alice in Borderland","Saw","Dark"], correct:0, category:"serien"}, // <-- KEIN BILD HIER
+  {question: "Wer ist das?", answers:["Walter White","Jesse Pinkman","Saul Goodman","Hank"], correct:0, category:"serien"}, // KEIN BILD (img leer lassen)
+  {question: "Wer ist Glenn?", answers:["The Walking Dead","Lost","Breaking Bad","Dark"], correct:0, category:"serien"}, 
+  {question: "Serie mit tödlichen Spielen?", answers:["Squid Game","Alice in Borderland","Saw","Dark"], correct:0, category:"serien"}, 
   {question: "Walter Whites Fach?", answers:["Mathe","Chemie","Bio","Physik"], correct:1, category:"serien"}, 
-  {question: "Mädchen mit Kräften?", answers:["Eleven","Max","Nancy","Robin"], correct:0, category:"serien"}, // <-- KEIN BILD HIER
-  {question: "Wo leben Simpsons?", answers:["Springfield","Quahog","South Park","NY"], correct:0, category:"serien"}, // <-- KEIN BILD HIER
-  {question: "TWD W auf Stirn?", answers:["Owen","Negan","Rick","Daryl"], correct:0, category:"serien"}, // <-- KEIN BILD HIER
-  {question: "Blutanalyst + Killer?", answers:["Dexter Morgan","Hannibal","Joe Goldberg","Michael"], correct:0, category:"serien"}, // <-- KEIN BILD HIER
-  {question: "Kind namens Malcolm?", answers:["Malcolm Mittendrin","Modern Family","Friends","Office"], correct:0, category:"serien"}, // <-- KEIN BILD HIER
+  {question: "Mädchen mit Kräften?", answers:["Eleven","Max","Nancy","Robin"], correct:0, category:"serien"}, 
+  {question: "Wo leben Simpsons?", answers:["Springfield","Quahog","South Park","NY"], correct:0, category:"serien"}, 
+  {question: "TWD W auf Stirn?", answers:["Owen","Negan","Rick","Daryl"], correct:0, category:"serien"}, 
+  {question: "Blutanalyst + Killer?", answers:["Dexter Morgan","Hannibal","Joe Goldberg","Michael"], correct:0, category:"serien"}, 
+  {question: "Kind namens Malcolm?", answers:["Malcolm Mittendrin","Modern Family","Friends","Office"], correct:0, category:"serien"}, 
 
   // 🎬 FILME
   {question: "Wer ist das?", answers:["Iron Man","Batman","Superman","Thor"], correct:0, img:"Resources/images/placeholder_bild13.jpg", category:"filme"},
@@ -159,15 +225,23 @@ function selectCategory(cat){
     questionIndex = 0;
     score = 0;
     document.getElementById("result").innerText = "";
+    // Ergebnis-Styling zurücksetzen
+    const resultElement = document.getElementById('result');
+    resultElement.className = ''; 
+
     loadQuestion();
 }
 
 function checkAnswer(ans){
-    if(ans === questions[questionIndex].correct){
+    const currentQuestion = questions[questionIndex];
+
+    if(ans === currentQuestion.correct){
         score++;
         document.getElementById("result").innerText = "✅ Richtig!";
+        document.getElementById("result").classList.add('correct');
     } else {
-        document.getElementById("result").innerText = `❌ Falsch! Die richtige Antwort war: ${questions[questionIndex].answers[questions[questionIndex].correct]}`;
+        document.getElementById("result").innerText = `❌ Falsch! Die richtige Antwort war: ${currentQuestion.answers[currentQuestion.correct]}`;
+        document.getElementById("result").classList.add('incorrect');
     }
 
     // Kurze Verzögerung, damit der Nutzer das Feedback sieht
@@ -178,8 +252,8 @@ function checkAnswer(ans){
         } else {
             // Ende des Quizs
             document.body.innerHTML = `
-                <h1 style="color:gold;">🥳 QUIZ BEENDET!</h1>
-                <p style="font-size: 2em;">Du hast ${score} von ${questions.length} Fragen richtig beantwortet!</p>
+                <h1 style="color:#58a6ff;">🥳 QUIZ BEENDET!</h1>
+                <p style="font-size: 2em; margin-top: 30px;">Du hast ${score} von ${questions.length} Fragen richtig beantwortet!</p>
                 <button onclick='window.location.reload()' style='font-size:1.5em; padding:20px 40px;'>Nochmal spielen</button>
             `;
         }
@@ -188,7 +262,6 @@ function checkAnswer(ans){
 
 // Startet das Quiz beim Laden der Seite (zeigt die Kategorien-Aufforderung)
 loadQuestion();
-
 </script>
 
 </body>
