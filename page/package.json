@@ -1,0 +1,9 @@
+{
+  "name": "LJL-Quiz",
+  "version": "0.2.0",
+  "description": "temp sample package.json",
+  "dependencies": {
+    "@primer/css": "17.0.1"
+  },
+  "license": "GPL-3.0 license"
+}
