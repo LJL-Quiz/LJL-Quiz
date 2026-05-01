@@ -1,2 +1,0 @@
-- name: Relia Cloud Cost Check
-  uses: davidahmann/aws_cost@v1.3.2
