@@ -47,8 +47,8 @@
     #quiz-container {
         max-width: 800px; 
         margin: 0 auto; 
-        padding-bottom: 120px; /* Platzhalter für die Footer/Controls am unteren Rand */
-        position: relative; /* Wichtig, damit die Controls positioniert werden können */
+        padding-bottom: 120px; /* Platzhalter für die Controls am unteren Rand */
+        position: relative; 
     }
 
     /* ------------------- MENÜ & HEADER ------------------- */
@@ -86,12 +86,12 @@
     }
 
     #question-img {
-        max-width: 90%; 
+        max-width: 90%; /* Wichtig für Mobilgeräte */
         height: auto;
         display: block; 
         margin: 20px auto 30px; 
         border-radius: 15px; 
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); 
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); /* Schatten */
         transition: transform 0.3s ease; 
     }
 
@@ -104,21 +104,21 @@
 
     /* ------------------- BUTTONS (Die Interaktion) ------------------- */
     button {
-        padding: 15px 30px; 
+        padding: 15px 30px; /* Große, klickbare Fläche */
         font-size: 1.1em; 
         cursor: pointer;
         background-color: var(--button-bg);
         color: var(--text-color);
         border: 2px solid #444;
         margin: 10px 15px;
-        transition: all 0.3s ease; 
+        transition: all 0.3s ease; /* Sanfte Übergänge */
         border-radius: 8px;
     }
 
     button:hover {
-        background-color: var(--primary-accent); 
+        background-color: var(--primary-accent); /* Akzentfarbe beim Hovern */
         color: #fff;
-        transform: translateY(-2px); 
+        transform: translateY(-2px); /* Leichter "Lift"-Effekt */
         box-shadow: 0 4px 15px var(--shadow-glow); /* Neon-Schimmer beim Hovern */
     }
 
@@ -133,11 +133,11 @@
 
     /* Spezielle Klassen für Feedback */
     .correct {
-         background-color: rgba(76, 175, 80, 0.2); /* Grüner Schimmer */
+         background-color: rgba(76, 175, 80, 0.2); /* Grüner Schimmer (im Dark Mode) */
          color: #9ae6b4;
     }
     .incorrect {
-         background-color: rgba(255, 82, 82, 0.2); /* Roter Schimmer */
+         background-color: rgba(255, 82, 82, 0.2); /* Roter Schimmer (im Dark Mode) */
          color: #f87171;
     }
 
@@ -186,14 +186,14 @@
         
         <!-- Dev Testing Area -->
         <div style="margin-top: 20px; text-align: left; background: var(--bg-color); padding: 15px; border-radius: 6px;">
-            <h3>Aktueller Zustand</h3>
+            <h3 style="margin-top: 0;">Aktueller Zustand</h3>
             <p><strong>Theme Mode:</strong> <span id="themeStatus"></span></p>
             <p><strong>Score/Fragen:</strong> <span id="scoreStatus">0 / 0</span></p>
-            <p><strong>Quiz Index:</strong> <span id="indexStatus">0</span></p>
+            <p><strong>Quiz Index (Nächste Frage):</strong> <span id="indexStatus">0</span></p>
         </div>
 
-        <!-- Test-Funktion (zum Beispiel, um zu sehen, ob JS läuft) -->
-        <button onclick="console.log('Dev Test erfolgreich!')" style="margin-top: 20px; background-color: #3b82f6;">Test Button klicken</button>
+        <!-- Test-Funktion -->
+        <button onclick="console.log('Dev Test erfolgreich!')" style="margin-top: 25px; background-color: #3b82f6;">Test Button klicken (Browser Console prüfen)</button>
         
         <!-- Schließen-Button -->
         <button onclick="document.getElementById('settingsModal').style.display='none';" style="background-color: red; margin-top: 15px;">Schließen (X)</button>
@@ -211,41 +211,41 @@ let score = 0;
 
 const allQuestions = [
 
-  // 🎮 GAMING - SPIELE (WICHTIG: Hier deine korrigierten Pfade!)
-  {question: "Wer ist dieser Charakter (God of War)?", answers:["Kratos","Mario","Link","Sonic"], correct:0, img:"Resources/images/placeholder_bild1.jpg", category:"spiele"},
-  {question: "Wer ist das?", answers:["Bowser","Donkey Kong","Luigi","Yoshi"], correct:0, img:"Resources/images/placeholder_bild2.jpg", category:"spiele"},
-  {question: "Wer ist das?", answers:["Papyrus","Sans","Gaster","Flowey"], correct:0, img:"Resources/images/Glenn Rhee.jpg", category:"spiele"},
-  {question: "Welche Nintendo Konsole kam 2002 raus?", answers:["Switch","GameCube","Wii","DS"], correct:1, img:"Resources/images/placeholder_bild4.jpg", category:"spiele"},
-  {question: "Meistverkauftes Spiel?", answers:["GTA V","Minecraft","Fortnite","Tetris"], correct:1, img:"Resources/images/placeholder_bild5.jpg", category:"spiele"},
-  {question: "GTA 5 Stadt?", answers:["Liberty City","Los Santos","Vice City","San Fierro"], correct:1, img:"Resources/images/placeholder_bild6.jpg", category:"spiele"},
-  {question: "SEGA Maskottchen?", answers:["Mario","Sonic","Crash","Rayman"], correct:1, img:"Resources/images/placeholder_bild7.jpg", category:"spiele"},
-  {question: "Umbrella kommt vor in?", answers:["Resident Evil","Silent Hill","Outlast","Dead Space"], correct:0, img:"Resources/images/placeholder_bild8.jpg", category:"spiele"},
-  {question: "Spiel mit Pilzinfektion?", answers:["The Last of Us","Days Gone","RE4","Metro"], correct:0, img:"Resources/images/placeholder_bild9.jpg", category:"spiele"},
-  {question: "Roter Pac-Man Geist?", answers:["Blinky","Pinky","Inky","Clyde"], correct:0, img:"Resources/images/placeholder_bild10.jpg", category:"spiele"},
-  {question: "Marios erster Auftritt?", answers:["Mario Bros","Donkey Kong","Zelda","Metroid"], correct:1, img:"Resources/images/placeholder_bild11.jpg", category:"spiele"},
-  {question: "Fallout Währung?", answers:["Caps","Dollar","Gold","Coins"], correct:0, img:"Resources/images/placeholder_bild12.jpg", category:"spiele"},
+  // 🎮 GAMING - SPIELE (JETZT MIT DEN NEUEN NAMEN!)
+  {question: "Wer ist dieser Charakter (God of War)?", answers:["Kratos","Mario","Link","Sonic"], correct:0, img:"Resources/images/Wer%20ist%20das(herr%20pederiva).jpg", category:"spiele"},
+  {question: "Wer ist das?", answers:["Bowser","Donkey Kong","Luigi","Yoshi"], correct:0, img:"Resources/images/Wer%20ist%20das(bowser).jpg", category:"spiele"},
+  {question: "Wer ist das?", answers:["Papyrus","Sans","Gaster","Flowey"], correct:0, img:"Resources/images/game_Wer%20ist%20das(Papyrus).jpg", category:"spiele"},
+  {question: "Welche Nintendo Konsole kam 2002 raus?", answers:["Switch","GameCube","Wii","DS"], correct:1, img:"Resources/images/Welche%20Konsole%20kam%202002%20raus.jpg", category:"spiele"},
+  {question: "Meistverkauftes Spiel?", answers:["GTA V","Minecraft","Fortnite","Tetris"], correct:1, img:"Resources/images/game_Welches%20Spiel%20ist%20das%20meist%20verkauft.jpg", category:"spiele"},
+  {question: "GTA 5 Stadt?", answers:["Liberty City","Los Santos","Vice City","San Fierro"], correct:1, img:"Resources/images/game_Wie%20heißt%20die%20Stadt%20von%20GTA5.jpg", category:"spiele"},
+  {question: "SEGA Maskottchen?", answers:["Mario","Sonic","Crash","Rayman"], correct:1, img:"Resources/images/sega.jpg", category:"spiele"},
+  {question: "Umbrella kommt vor in?", answers:["Resident Evil","Silent Hill","Outlast","Dead Space"], correct:0, img:"Resources/images/Die%20umbrella%20frage.jpg", category:"spiele"},
+  {question: "Spiel mit Pilzinfektion?", answers:["The Last of Us","Days Gone","RE4","Metro"], correct:0, img:"Resources/images/Die%20pilz%20infection%20frage.jpg", category:"spiele"},
+  {question: "Roter Pac-Man Geist?", answers:["Blinky","Pinky","Inky","Clyde"], correct:0, img:"Resources/images/game_Pac-man%20frage.jpg", category:"spiele"},
+  {question: "Marios erster Auftritt?", answers:["Mario Bros","Donkey Kong","Zelda","Metroid"], correct:1, img:"Resources/images/game_In%20welchem%20spiel%20kam%20super%20Mario%20als%20erste%20vor.jpg", category:"spiele"},
+  {question: "Fallout Währung?", answers:["Caps","Dollar","Gold","Coins"], correct:0, img:"Resources/images/game_Fallout.jpg", category:"spiele"},
 
   // 📺 SERIEN
-  {question: "Wer ist das?", answers:["Walter White","Jesse Pinkman","Saul Goodman","Hank"], correct:0, category:"serien"}, // KEIN BILD (img leer lassen)
-  {question: "Wer ist Glenn?", answers:["The Walking Dead","Lost","Breaking Bad","Dark"], correct:0, category:"serien"}, 
-  {question: "Serie mit tödlichen Spielen?", answers:["Squid Game","Alice in Borderland","Saw","Dark"], correct:0, category:"serien"}, 
-  {question: "Walter Whites Fach?", answers:["Mathe","Chemie","Bio","Physik"], correct:1, category:"serien"}, 
-  {question: "Mädchen mit Kräften?", answers:["Eleven","Max","Nancy","Robin"], correct:0, category:"serien"}, 
-  {question: "Wo leben Simpsons?", answers:["Springfield","Quahog","South Park","NY"], correct:0, category:"serien"}, 
-  {question: "TWD W auf Stirn?", answers:["Owen","Negan","Rick","Daryl"], correct:0, category:"serien"}, 
-  {question: "Blutanalyst + Killer?", answers:["Dexter Morgan","Hannibal","Joe Goldberg","Michael"], correct:0, category:"serien"}, 
-  {question: "Kind namens Malcolm?", answers:["Malcolm Mittendrin","Modern Family","Friends","Office"], correct:0, category:"serien"}, 
+  {question: "Wer ist das?", answers:["Walter White","Jesse Pinkman","Saul Goodman","Hank"], correct:0, img:"Resources/images/serien_Die%20Walter%20white%20fach%20frage.jpg", category:"serien"}, 
+  {question: "Wer ist Glenn?", answers:["The Walking Dead","Lost","Breaking Bad","Dark"], correct:0, img:"Resources/images/The_Walking_Dead.jpg", category:"serien"}, 
+  {question: "Serie mit tödlichen Spielen?", answers:["Squid Game","Alice in Borderland","Saw","Dark"], correct:0, img:"Resources/images/serien_Die%20squid%20game%20frage.jpg", category:"serien"}, 
+  {question: "Walter Whites Fach?", answers:["Mathe","Chemie","Bio","Physik"], correct:1, img:"Resources/images/serien_Die%20Walter%20white%20fach%20frage.jpg", category:"serien"}, 
+  {question: "Mädchen mit Kräften?", answers:["Eleven","Max","Nancy","Robin"], correct:0, img:"Resources/images/serien_Die%20stranger%20things%20frage.jpg", category:"serien"}, 
+  {question: "Wo leben Simpsons?", answers:["Springfield","Quahog","South Park","NY"], correct:0, img:"Resources/images/serien_Die%20simpson%20frage.jpg", category:"serien"}, 
+  {question: "TWD W auf Stirn?", answers:["Owen","Negan","Rick","Daryl"], correct:0, img:"Resources/images/The_Walking_Dead.jpg", category:"serien"}, 
+  {question: "Blutanalyst + Killer?", answers:["Dexter Morgan","Hannibal","Joe Goldberg","Michael"], correct:0, img:"Resources/images/serien_dexter%20frage.jpg", category:"serien"}, 
+  {question: "Kind namens Malcolm?", answers:["Malcolm Mittendrin","Modern Family","Friends","Office"], correct:0, img:"Resources/images/serien_melcolm%20mittendrin.jpg", category:"serien"}, 
 
   // 🎬 FILME
-  {question: "Wer ist das?", answers:["Iron Man","Batman","Superman","Thor"], correct:0, img:"Resources/images/placeholder_bild13.jpg", category:"filme"},
-  {question: "Wer ist Jason?", answers:["Jason Voorhees","Freddy","Michael Myers","Ghostface"], correct:0, img:"Resources/images/placeholder_bild14.jpg", category:"filme"},
-  {question: "Hauself?", answers:["Dobby","Kreacher","Winky","Hedwig"], correct:0, img:"Resources/images/placeholder_bild15.jpg", category:"filme"},
-  {question: "Fight Club Regel?", answers:["Nicht reden","Kämpfen","Fliehen","Lachen"], correct:0, img:"Resources/images/placeholder_bild16.jpg", category:"filme"},
-  {question: "Scream Regel?", answers:["Bin gleich zurück","Hallo","Lauf","Hilfe"], correct:0, img:"Resources/images/placeholder_bild17.jpg", category:"filme"},
-  {question: "Freitag der 13 Killer Teil 1?", answers:["Pamela Voorhees","Jason","Freddy","Ghostface"], correct:0, img:"Resources/images/placeholder_bild18.jpg", category:"filme"},
-  {question: "Simba Böser Onkel?", answers:["Scar","Mufasa","Zazu","Rafiki"], correct:0, img:"Resources/images/placeholder_bild19.jpg", category:"filme"},
-  {question: "Stunts selbst?", answers:["Jackie Chan","Tom Cruise","The Rock","Vin Diesel"], correct:0, img:"Resources/images/placeholder_bild20.jpg", category:"filme"},
-  {question: "Erstes Dino Tier?", answers:["Brachiosaurus","T-Rex","Raptor","Triceratops"], correct:0, img:"Resources/images/placeholder_bild21.jpg", category:"filme"}
+  {question: "Wer ist das?", answers:["Iron Man","Batman","Superman","Thor"], correct:0, img:"Resources/images/movie_Wer%20ist%20das(iron-man).jpg", category:"filme"},
+  {question: "Wer ist Jason?", answers:["Jason Voorhees","Freddy","Michael Myers","Ghostface"], correct:0, img:"Resources/images/movie_Wer%20ist%20das(jason%20voorhees).jpg", category:"filme"},
+  {question: "Hauself?", answers:["Dobby","Kreacher","Winky","Hedwig"], correct:0, img:"Resources/images/movie_Harry%20Potter.jpg", category:"filme"},
+  {question: "Fight Club Regel?", answers:["Nicht reden","Kämpfen","Fliehen","Lachen"], correct:0, img:"Resources/images/movie_fight%20club%20Zitat.jpg", category:"filme"},
+  {question: "Scream Regel?", answers:["Bin gleich zurück","Hallo","Lauf","Hilfe"], correct:0, img:"Resources/images/movie_was%20darf%20man%20nicht%20im%20scream%20Universum%20sagen.jpg", category:"filme"},
+  {question: "Freitag der 13 Killer Teil 1?", answers:["Pamela Voorhees","Jason","Freddy","Ghostface"], correct:0, img:"Resources/images/movi_Wer%20ist%20der%20killer%20in%20Freitag%20der%2013%20Teil%201.jpg", category:"filme"},
+  {question: "Simba Böser Onkel?", answers:["Scar","Mufasa","Zazu","Rafiki"], correct:0, img:"Resources/images/movie_König%20Der%20Löwen.jpg", category:"filme"},
+  {question: "Stunts selbst?", answers:["Jackie Chan","Tom Cruise","The Rock","Vin Diesel"], correct:0, img:"Resources/images/movie_Welcher%20Schauspieler%20macht%20alle%20stu…jpg", category:"filme"},
+  {question: "Erstes Dino Tier?", answers:["Brachiosaurus","T-Rex","Raptor","Triceratops"], correct:0, img:"Resources/images/movie_Welchen%20dino%20hat%20alan%20grand%20zuerst%20gesehen.jpg", category:"filme"}
 
 ];
 
