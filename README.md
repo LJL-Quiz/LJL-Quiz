@@ -16,7 +16,7 @@
 ---
 
 ## 🕹️ So spielst du das Quiz
-1.  Gehe zur Live-Seite: [LJL Quiz Link hier einfügen]
+1.  Gehe zur Live-Seite: [https://ljl-quiz.github.io/LJL-Quiz/]
 2.  Wähle oben im Menü deine Kategorie (Spiele, Serien oder Filme).
 3.  Antworte auf die Fragen und sieh dir dein Ergebnis an!
 
