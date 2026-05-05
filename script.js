@@ -32,7 +32,6 @@ function shuffleArray(array) {
  */
 function findNewCorrectIndex(originalAnswers, correctOriginalIndex) {
     const originalAnswerValue = originalAnswers[correctOriginalIndex];
-    // Wir mischen nur die Antworten und finden dann heraus, wo der richtige Wert gelandet ist.
     const shuffled = [...originalAnswers]; 
     shuffleArray(shuffled);
     return shuffled.findIndex(answer => answer === originalAnswerValue);
@@ -40,7 +39,7 @@ function findNewCorrectIndex(originalAnswers, correctOriginalIndex) {
 
 
 // ===========================================================
-// QUIZ LOGIC
+// QUIZ LOGIC (Unverändert, da fehlerfrei)
 // ===========================================================
 
 function selectCategory(cat){
@@ -68,12 +67,12 @@ function loadQuestion(){
         document.getElementById("d").style.display = "none";
         document.getElementById("question-img").src = ""; 
         document.getElementById("question-img").style.display = "none";
-        return;
+        return; 
     }
 
     // --- NEUER SCHRITT: Antworten mischen und global speichern ---
     const originalAnswers = q.answers;
-    currentShuffledAnswers = [...originalAnswers]; // Kopie erstellen
+    currentShuffledAnswers = [...originalAnswers]; // Kopie erstellen und mischen
     shuffleArray(currentShuffledAnswers); 
     // --- ENDE NEUER SCHRITT ---
 
@@ -102,7 +101,7 @@ function loadQuestion(){
 
 function checkAnswer(ans){
     const currentQuestion = questions[questionIndex];
-    // Die korrekte Antwort ist der Text des Elements im Original-Array
+    // Der korrekte Antworttext ist der Text des Elements im Original-Array
     const correctAnswerText = currentQuestion.answers[currentQuestion.correct];
     
     // Der angeklickte Wert ist der Text des Buttons, den der Nutzer gedrückt hat (aus dem gemischten Array)
@@ -139,14 +138,20 @@ function checkAnswer(ans){
     }, 1800); // Pause von 1,8 Sekunden
 }
 
+
 // ===========================================================
-// FUNKTIONALITÄT (THEME & DEV) - Unverändert
+// FUNKTIONALITÄT (THEME & DEV) - ERWEITERT MIT DEBUGGING
 // ===========================================================
+
 const body = document.getElementById('quizBody');
 const themeToggleBtn = document.getElementById('themeToggle');
 const devSettingsBtn = document.getElementById('devSettingsBtn');
 const settingsModal = document.getElementById('settingsModal');
 const themeStatusSpan = document.getElementById('themeStatus');
+
+// NEUE GLOBAL VARIABLE FÜR SICHERHEIT (Passwort)
+const DEBUG_PASSWORD = "adminquiz"; 
+
 
 function toggleTheme() {
     body.classList.toggle('light-mode');
@@ -173,10 +178,65 @@ function checkTheme() {
     }
 }
 
+// NEUE FUNKTION: Zeigt das Debug-Panel an, wenn Passwort korrekt ist.
+function showDebugPanel() {
+    const passwordInput = document.getElementById('debugPassword');
+    const debugButton = document.getElementById('showDebugBtn');
+    const debugPanel = document.getElementById('debugPanelContent');
+
+    if (passwordInput.value === DEBUG_PASSWORD) {
+        // 1. Bilder-Übersicht erstellen
+        let imageListHTML = '<h3>🖼️ Bildübersicht im Quellcode:</h3><ul>';
+        allQuestions.forEach((q, index) => {
+            const imgName = q.img && q.img !== "" ? q.img : "KEIN BILD";
+            imageListHTML += `<li><strong>Q${index + 1}:</strong> ${q.question} &rarr; Pfad: ${imgName}</li>`;
+        });
+        imageListHTML += '</ul>';
+
+
+        // 2. Aktuellen Zustand des Quizs anzeigen (Sehr detailliert)
+        let stateDump = `<h3>⚙️ Interner Quiz-Zustand (${questions[questionIndex]?.category || 'N/A'})</h3>`;
+        stateDump += `<p>Aktuelle Frage Index: ${questionIndex}</p>`;
+        stateDump += `<p>Gesamtpunktzahl (aktuell): ${score}</p>`;
+        stateDump += `<h4>Frage-Details:</h4>`;
+
+        if(questions[questionIndex]){
+            const q = questions[questionIndex];
+            stateDump += `<p><strong>FRAGE:</strong> ${q.question}</p>`;
+            
+            // Anzeigen der gemischten Antworten und des korrekten Wertes (für Debugging)
+            let answersHTML = '<ul>';
+            currentShuffledAnswers.forEach((answerText, index) => {
+                const isCorrectAnswer = answerText === q.answers[q.correct]; // Prüft den Text gegen das Original-Korrekte
+                const status = isCorrectAnswer ? '<span style="color: green;">(✅ KORREKT)</span>' : '';
+                answersHTML += `<li>${String.fromCharCode(65 + index)}: ${answerText} ${status}</li>`;
+            });
+            answersHTML += '</ul>';
+
+             stateDump += answersHTML;
+        } else {
+             stateDump += '<p>Keine Fragen geladen.</p>';
+        }
+
+
+        debugPanel.innerHTML = imageListHTML + stateDump;
+    } else {
+         document.getElementById('debugPanelContent').innerHTML = "<p style='color: red;'>❌ Falsches Passwort.</p>";
+    }
+
+}
+
+// Event Listener für den Theme Toggle (Unverändert)
 themeToggleBtn.addEventListener('click', toggleTheme);
+
+// Öffnen/Schließen des Dev Settings Menüs (Erweitert)
 devSettingsBtn.addEventListener('click', () => {
     settingsModal.style.display = settingsModal.style.display === 'block' ? 'none' : 'block';
 });
+
+// NEUER EVENT LISTENER: Debug-Panel anzeigen, wenn auf den Button geklickt wird
+document.getElementById('showDebugBtn').addEventListener('click', showDebugPanel);
+
 
 // Startfunktionen
 checkTheme(); 
