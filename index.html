@@ -13,16 +13,11 @@
 
 <body id="quizBody">
 
-<!-- Controls für Theme & Dev (Unten Rechts) -->
-<div class="controls bottom-right">
+<!-- Controls Top Left (Theme Toggle) -->
+<div class="controls top-left">
     <button class="control-btn" id="themeToggle" title="Theme wechseln (Dark/Light)">🌙</button>
-    <button class="control-btn" id="devSettingsBtn" title="Entwickler-Tools">⚙️</button>
 </div>
 
-<!-- GitHub Link Button (Unten Rechts) -->
-<div class="controls bottom-right" style="margin-top: 15px;">
-    <a href="https://github.com/LJL-Quiz/LJL-Quiz" target="_blank" class="control-btn" style="border: none; background-color: var(--primary-accent); color: white;">🔗 Zu GitHub</a>
-</div>
 
 <!-- Quiz Container -->
 <div id="quiz-container">
@@ -41,7 +36,7 @@
     <img id="question-img" src="" alt="Fragebild" style="display:none;" />
     <h2 id="question">Bitte wähle eine Kategorie!</h2>
 
-    <!-- Antwort-Buttons -->
+    <!-- Antwort-Buttons (sichtbar, aber inaktiv bis zur Kategorieauswahl) -->
     <button onclick="checkAnswer(0)" id="a"></button>
     <button onclick="checkAnswer(1)" id="b"></button>
     <button onclick="checkAnswer(2)" id="c"></button>
@@ -67,10 +62,15 @@
 
         <!-- Debugging-Bereich -->
         <div style="margin-top: 30px; text-align: left; background: var(--bg-color); padding: 15px; border-radius: 6px;">
-            <h3 style="margin-top: 0;">🛠️ Debugging Tool</h3>
-             <!-- Passwort Eingabe -->
-            <input type="password" id="debugPassword" placeholder="Passwort eingeben">
+            <h3 style="color: var(--primary-accent);">🛠️ Debugging & API Test</h3>
+            <!-- Passwort Eingabe -->
+            <input type="password" id="debugPassword" placeholder="Passwort eingeben (adminquiz)">
             <button id="showDebugBtn" style="padding: 10px; margin-top: 10px;">Debug-Panel anzeigen</button>
+
+            <!-- API Trigger Input -->
+            <p style="margin-top: 20px;">API Test Command:</p>
+            <input type="text" id="apiCommandInput" placeholder="anime_quiz">
+            <button onclick="runApiTest()" style="padding: 10px; margin-left: 10px;">Ausführen</button>
 
             <!-- Debug Panel Container (Wird erst bei richtigem Passwort sichtbar) -->
             <div id="debugPanelContent" style="display: none;"></div>
@@ -81,6 +81,16 @@
         <button onclick="document.getElementById('settingsModal').style.display='none';" style="background-color: red; margin-top: 25px;">Schließen (X)</button>
     </div >
 </div >
+
+<!-- Controls Bottom Right (GitHub Link & Dev Settings Button) -->
+<div class="controls bottom-right">
+    <button class="control-btn" id="devSettingsBtn" title="Entwickler-Tools">⚙️</button>
+</div>
+
+<!-- GitHub Link Button -->
+<div class="controls bottom-right" style="margin-top: 15px;">
+    <a href="https://github.com/LJL-Quiz/LJL-Quiz" target="_blank" class="control-link">🔗 Zu GitHub</a>
+</div>
 
 <!-- Verknüpfung zur Optik und Logik! -->
 <script>
@@ -251,9 +261,8 @@ function checkAnswer(ans){
     }, 1800); // Pause von 1,8 Sekunden
 }
 
-
 // ===========================================================
-// FUNKTIONALITÄT (THEME & DEV) - ERWEITERT MIT DEBUGGING
+// FUNKTIONALITÄT (THEME & DEV) - ERWEITERT MIT DEBUGGING UND API-TEST
 // ===========================================================
 
 const body = document.getElementById('quizBody');
@@ -291,6 +300,7 @@ function checkTheme() {
         document.getElementById('themeStatus').innerText = 'DARK MODE AKTIV';
     }
 }
+
 
 // NEUE FUNKTION: Zeigt das Debug-Panel an, wenn Passwort korrekt ist.
 function showDebugPanel() {
@@ -343,6 +353,29 @@ function showDebugPanel() {
         document.getElementById('debugPanelContent').style.display = 'block'; 
     }
 
+}
+
+
+function runApiTest() {
+    const commandInput = document.getElementById('apiCommandInput');
+    const command = commandInput.value.trim().toLowerCase();
+    const debugPanel = document.getElementById('debugPanelContent');
+
+    if (command === "anime_quiz") {
+        // Hier kommt später die TMDB/RAWG API-Logik hin!
+        let message = `\n*** API TEST ERFOLGREICH ***\n`;
+        message += `Anfrage für 'Anime Quiz' wurde ausgelöst.\n`;
+        message += `Status: WARTE AUF API ENDPOINT. Hier würde der Fetch-Aufruf starten.\n`;
+        message += `Vorbereitung abgeschlossen. Kann jetzt die TMDB/RAWG Daten laden!`;
+
+        // Zeige das Ergebnis im Debug Panel an, ohne Quiz zu starten
+        debugPanel.innerHTML = message;
+        document.getElementById('apiCommandInput').value = ''; // Eingabefeld leeren
+        debugPanel.style.display = 'block';
+
+    } else {
+         alert("Ungültiger API Command. Bitte geben Sie 'anime_quiz' ein.");
+    }
 }
 
 
