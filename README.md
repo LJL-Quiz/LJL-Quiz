@@ -1,4 +1,5 @@
 # passwort für debug tool: adminquiz
+debug tool gibt auch lösungen sowie bilder location an
 
 # 🎮🎬 LJL Quiz: Gamer & Culture Challenge
 
