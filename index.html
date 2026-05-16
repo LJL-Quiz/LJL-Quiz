@@ -62,9 +62,9 @@
 
         <!-- Debugging-Bereich -->
         <div style="margin-top: 30px; text-align: left; background: var(--bg-color); padding: 15px; border-radius: 6px;">
-            <h3 style="color: var(--primary-accent);">🛠️ Debugging & API Test</h3>
+            <h3 style="color: var(--primary-accent);">🛠️ Debugging </h3>
             <!-- Passwort Eingabe -->
-            <input type="password" id="debugPassword" placeholder="Passwort eingeben (adminquiz)">
+            <input type="password" id="debugPassword" placeholder="Passwort eingeben(auf github)">
             <button id="showDebugBtn" style="padding: 10px; margin-top: 10px;">Debug-Panel anzeigen</button>
 
             <!-- Debug Panel Container (Wird erst bei richtigem Passwort sichtbar) -->
@@ -77,14 +77,9 @@
     </div >
 </div >
 
-<!-- Controls Bottom Right (GitHub Link & Dev Settings Button) -->
+<!-- Controls Bottom Right (Dev Settings Button) -->
 <div class="controls bottom-right">
     <button class="control-btn" id="devSettingsBtn" title="Entwickler-Tools">⚙️</button>
-</div>
-
-<!-- GitHub Link Button -->
-<div class="controls bottom-left" style="margin-top: 15px;">
-    <a href="https://github.com/LJL-Quiz/LJL-Quiz" target="_blank" class="control-link">🔗 Zu GitHub</a>
 </div>
 
 <!-- Verknüpfung zur Optik und Logik! -->
@@ -248,7 +243,7 @@ function checkAnswer(ans){
         } else {
             // Ende des Quizs
             document.body.innerHTML = `
-                <h1 style="color:#58a6ff;">🥳 QUIZ BEENDET!</h1>
+                <h1 style="color:#58a6ff;">QUIZ BEENDET!</h1>
                 <p style="font-size: 2em; margin-top: 30px;">Du hast ${score} von ${questions.length} Fragen richtig beantwortet!</p>
                 <button onclick='window.location.reload()' style='font-size:1.5em; padding:20px 40px;'>Nochmal spielen</button>
             `;
